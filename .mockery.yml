@@ -1,0 +1,13 @@
+quiet: false
+filename: "mock_{{.InterfaceName}}.go"
+dir: "{{.InterfaceDirRelative}}/mocks"
+mockname: "{{.InterfaceName|camelcase}}"
+outpkg: "mocks"
+
+packages:
+  github.com/danielMensah/onetable-go/internal/database:
+    interfaces:
+      DynamoDBClient:
+  github.com/danielMensah/onetable-go:
+    interfaces:
+      Client:

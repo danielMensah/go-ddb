@@ -1,0 +1,74 @@
+run:
+  concurrency: 4
+  timeout: 5m
+  tests: true
+  modules-download-mode: readonly
+  allow-parallel-runners: true
+  allow-serial-runners: true
+  go: "1.23"
+
+output:
+  sort-results: true
+
+linters-settings:
+  decorder:
+    dec-order:
+      - const
+      - var
+      - type
+      - func
+  errcheck:
+    check-blank: true
+  funlen:
+    lines: 100
+    statements: 50
+  gocognit:
+    min-complexity: 20
+  gocyclo:
+    min-complexity: 20
+  misspell:
+    locale: UK
+  nestif:
+    min-complexity: 3
+  sloglint:
+    context: "all"
+    static-msg: true
+    args-on-sep-lines: true
+
+linters:
+  enable-all: true
+  disable:
+    - execinquery
+    - exportloopref
+    - testpackage
+    - wsl
+    - lll
+    - ireturn
+    - depguard
+    - cyclop
+    - err113
+    - exhaustruct
+    - gci
+    - ginkgolinter
+    - gochecknoglobals
+    - gofumpt
+    - importas
+    - loggercheck
+    - mnd
+    - musttag
+    - paralleltest
+    - tagliatelle
+    - tparallel
+    - varnamelen
+    - wrapcheck
+    - zerologlint
+
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0
+  exclude-dirs:
+    - example
+  exclude-rules:
+    - path: _test.go
+      linters:
+        - funlen
