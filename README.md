@@ -121,7 +121,7 @@ func getUser(ctx context.Context, client onetable.Client) {
 ```go
 func listUsers(ctx context.Context, client onetable.Client) {
 	var users []User
-	err := client.Find(ctx, &users, "name = $1", "John Doe")
+	err := client.Find(ctx, &users, "name = $1, age = $2", "John Doe", 25)
 	if err != nil {
 		log.Fatalf("failed to list users: %v", err)
 	}
