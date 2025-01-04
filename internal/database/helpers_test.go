@@ -3,6 +3,8 @@ package database
 import (
 	"testing"
 
+	"github.com/stretchr/testify/require"
+
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/stretchr/testify/assert"
 )
@@ -83,9 +85,9 @@ func TestHelper_ParseCondition(t *testing.T) {
 
 			// Assert the error
 			if tt.expectedErr != nil {
-				assert.ErrorIs(t, err, tt.expectedErr)
+				require.ErrorIs(t, err, tt.expectedErr)
 			} else {
-				assert.NoError(t, err)
+				require.NoError(t, err)
 			}
 
 			// Assert the keys, expression, and values

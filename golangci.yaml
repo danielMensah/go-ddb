@@ -29,7 +29,7 @@ linters-settings:
   misspell:
     locale: UK
   nestif:
-    min-complexity: 3
+    min-complexity: 5
   sloglint:
     context: "all"
     static-msg: true

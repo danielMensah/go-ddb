@@ -3,14 +3,15 @@ package database
 import (
 	"context"
 	"errors"
+	"reflect"
+	"testing"
+
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/danielMensah/onetable-go/internal/database/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"reflect"
-	"testing"
 )
 
 type sampleItem struct {
@@ -61,9 +62,9 @@ func TestClient_CreateItem(t *testing.T) {
 
 			_, err := c.CreateItem(ctx, tt.item)
 			if tt.err != nil {
-				assert.ErrorIs(t, err, tt.err)
+				require.ErrorIs(t, err, tt.err)
 			} else {
-				assert.NoError(t, err)
+				require.NoError(t, err)
 			}
 		})
 	}
@@ -185,15 +186,21 @@ func TestClient_Find(t *testing.T) {
 			err := c.Find(ctx, tt.out, tt.query, tt.args...)
 
 			if tt.err != nil {
-				assert.ErrorIs(t, err, tt.err)
+				require.ErrorIs(t, err, tt.err)
 			} else {
 				require.NoError(t, err)
 
 				outType := reflect.TypeOf(tt.out).Elem().Kind()
 				if outType == reflect.Slice {
-					assert.Equal(t, tt.expectedOut, *tt.out.(*[]sampleItem))
+					actual, ok := tt.out.(*[]sampleItem)
+					require.True(t, ok)
+
+					assert.Equal(t, tt.expectedOut, *actual)
 				} else {
-					assert.Equal(t, tt.expectedOut, *tt.out.(*sampleItem))
+					actual, ok := tt.out.(*sampleItem)
+					require.True(t, ok)
+
+					assert.Equal(t, tt.expectedOut, *actual)
 				}
 			}
 
