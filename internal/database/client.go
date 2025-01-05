@@ -104,3 +104,30 @@ func (c *Client) queryItem(ctx context.Context, out interface{}, query string, a
 
 	return attributevalue.UnmarshalMap(result.Item, out)
 }
+
+// UpdateItem updates an existing item in the database.
+func (c *Client) UpdateItem(ctx context.Context, key interface{}, updates map[string]interface{}) error {
+	keyMap, err := attributevalue.MarshalMap(key)
+	if err != nil {
+		return fmt.Errorf("marshalling key: %w", err)
+	}
+
+	updateExpression, expressionValues, err := buildUpdateExpression(updates)
+	if err != nil {
+		return err
+	}
+
+	input := &dynamodb.UpdateItemInput{
+		TableName:                 c.tableName,
+		Key:                       keyMap,
+		UpdateExpression:          &updateExpression,
+		ExpressionAttributeValues: expressionValues,
+	}
+
+	_, err = c.db.UpdateItem(ctx, input)
+	if err != nil {
+		return fmt.Errorf("updating item: %w", err)
+	}
+
+	return nil
+}

@@ -140,6 +140,54 @@ func (_c *Client_Find_Call) RunAndReturn(run func(context.Context, interface{}, 
 	return _c
 }
 
+// UpdateItem provides a mock function with given fields: ctx, key, updates
+func (_m *Client) UpdateItem(ctx context.Context, key interface{}, updates map[string]interface{}) error {
+	ret := _m.Called(ctx, key, updates)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdateItem")
+	}
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, interface{}, map[string]interface{}) error); ok {
+		r0 = rf(ctx, key, updates)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// Client_UpdateItem_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'UpdateItem'
+type Client_UpdateItem_Call struct {
+	*mock.Call
+}
+
+// UpdateItem is a helper method to define mock.On call
+//   - ctx context.Context
+//   - key interface{}
+//   - updates map[string]interface{}
+func (_e *Client_Expecter) UpdateItem(ctx interface{}, key interface{}, updates interface{}) *Client_UpdateItem_Call {
+	return &Client_UpdateItem_Call{Call: _e.mock.On("UpdateItem", ctx, key, updates)}
+}
+
+func (_c *Client_UpdateItem_Call) Run(run func(ctx context.Context, key interface{}, updates map[string]interface{})) *Client_UpdateItem_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(context.Context), args[1].(interface{}), args[2].(map[string]interface{}))
+	})
+	return _c
+}
+
+func (_c *Client_UpdateItem_Call) Return(_a0 error) *Client_UpdateItem_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *Client_UpdateItem_Call) RunAndReturn(run func(context.Context, interface{}, map[string]interface{}) error) *Client_UpdateItem_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // NewClient creates a new instance of Client. It also registers a testing interface on the mock and a cleanup function to assert the mocks expectations.
 // The first argument is typically a *testing.T value.
 func NewClient(t interface {

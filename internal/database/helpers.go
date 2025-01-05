@@ -5,6 +5,8 @@ import (
 	"reflect"
 	"strings"
 
+	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
+
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 )
 
@@ -63,4 +65,23 @@ func parseCondition(query string, args ...interface{}) (map[string]types.Attribu
 	}
 
 	return keyAttributes, keyConditionExpression.String(), expressionValues, nil
+}
+
+// buildUpdateExpression generates the UpdateExpression and ExpressionAttributeValues for an update operation.
+func buildUpdateExpression(updates map[string]interface{}) (string, map[string]types.AttributeValue, error) {
+	updateParts := make([]string, 0)
+	expressionValues := make(map[string]types.AttributeValue)
+
+	for field, value := range updates {
+		placeholder := ":" + field
+		updateParts = append(updateParts, fmt.Sprintf("%s = %s", field, placeholder))
+
+		attrValue, err := attributevalue.Marshal(value)
+		if err != nil {
+			return "", nil, fmt.Errorf("marshalling update value for %s: %w", field, err)
+		}
+		expressionValues[placeholder] = attrValue
+	}
+
+	return "SET " + strings.Join(updateParts, ", "), expressionValues, nil
 }

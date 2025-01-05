@@ -24,26 +24,21 @@ func main() {
 
 	o := onetable.New(dynamodb.NewFromConfig(cfg), "onetable")
 
-	CreateUser(o, ctx)
-	GetUser(o, ctx)
-	GetUsers(o, ctx)
-}
-
-func CreateUser(o onetable.Client, ctx context.Context) {
+	// Create item
 	output, _ := o.CreateItem(ctx, User{UserId: "1234", Name: "abigail"})
 	fmt.Printf("output: %v", output)
-}
 
-func GetUser(o onetable.Client, ctx context.Context) {
+	// Get item
 	u := &User{}
 	_ = o.Find(ctx, u, "userId = $1", "1234")
-
 	fmt.Printf("user: %v", u)
-}
 
-func GetUsers(o onetable.Client, ctx context.Context) {
-	u := &[]User{}
-	_ = o.Find(ctx, u, "name = $1, age = $2", "abigail", 25)
+	// Get items
+	uu := &[]User{}
+	_ = o.Find(ctx, uu, "name = $1", "abigail")
+	fmt.Printf("users: %v", uu)
 
-	fmt.Printf("users: %v", u)
+	// Update item
+	_ = o.UpdateItem(ctx, User{UserId: "1234"}, map[string]interface{}{"name": "abigail"})
+	fmt.Printf("successfully updated user")
 }
