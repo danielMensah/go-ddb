@@ -1,7 +1,7 @@
 ![coverage](https://raw.githubusercontent.com/danielMensah/onetable-go/badges/.badges/main/coverage.svg)
-# **OneTable: A Go ORM for DynamoDB**
+# **OneTable: A Go Library to Simplify DynamoDB Operations**
 
-**OneTable** is a lightweight Object-Relational Mapping (ORM) library for **DynamoDB** in Go. It simplifies the use of the AWS DynamoDB SDK by abstracting common complexities and avoiding repetitive code, allowing developers to focus on building applications instead of dealing with DynamoDB's intricacies.
+**OneTable** is a lightweight library for **DynamoDB** in Go. It simplifies the use of the AWS DynamoDB SDK by abstracting common complexities and avoiding repetitive code, allowing developers to focus on building applications instead of dealing with DynamoDB's low-level details.
 
 ---
 
@@ -121,7 +121,7 @@ func getUser(ctx context.Context, client onetable.Client) {
 ```go
 func listUsers(ctx context.Context, client onetable.Client) {
 	var users []User
-	err := client.Find(ctx, &users, "name = $1, age = $2", "John Doe", 25)
+	err := client.Find(ctx, &users, "name = $1", "John Doe")
 	if err != nil {
 		log.Fatalf("failed to list users: %v", err)
 	}
@@ -174,4 +174,4 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ---
 
-Let me know if there’s anything else you’d like to add!
+Let me know if there’s anything else to refine or improve!
