@@ -169,7 +169,6 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## **Acknowledgments**
 
-- Built with ❤️ by [Daniel Mensah](https://github.com/danielMensah).
 - Powered by [AWS DynamoDB SDK for Go](https://github.com/aws/aws-sdk-go-v2).
 
 ---
