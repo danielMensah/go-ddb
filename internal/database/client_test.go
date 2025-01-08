@@ -210,3 +210,86 @@ func TestClient_Find(t *testing.T) {
 		})
 	}
 }
+
+func TestClient_UpdateItem(t *testing.T) {
+	tests := []struct {
+		name         string
+		key          map[string]string
+		updates      map[string]interface{}
+		mockSetup    func()
+		err          error
+		expectedCall bool
+	}{
+		{
+			name: "successfully updates an item",
+			key:  map[string]string{"id": "123"},
+			updates: map[string]interface{}{
+				"name": "John Doe Updated",
+			},
+			mockSetup: func() {
+				m := mocks.NewDynamoDBClient(t)
+				updateExpression := "SET name = :name"
+				expressionAttributeValues := map[string]types.AttributeValue{
+					":name": &types.AttributeValueMemberS{Value: "John Doe Updated"},
+				}
+
+				m.On("UpdateItem", context.TODO(), &dynamodb.UpdateItemInput{
+					TableName:                 aws.String("onetable"),
+					Key:                       map[string]types.AttributeValue{"id": &types.AttributeValueMemberS{Value: "123"}},
+					UpdateExpression:          &updateExpression,
+					ExpressionAttributeValues: expressionAttributeValues,
+				}).Return(&dynamodb.UpdateItemOutput{}, nil).Once()
+			},
+			err:          nil,
+			expectedCall: true,
+		},
+		{
+			name: "fails when UpdateItem returns an error",
+			key:  map[string]string{"id": "123"},
+			updates: map[string]interface{}{
+				"name": "John Doe Updated",
+			},
+			mockSetup: func() {
+				m := mocks.NewDynamoDBClient(t)
+				updateExpression := "SET name = :name"
+				expressionAttributeValues := map[string]types.AttributeValue{
+					":name": &types.AttributeValueMemberS{Value: "John Doe Updated"},
+				}
+
+				m.On("UpdateItem", context.TODO(), &dynamodb.UpdateItemInput{
+					TableName:                 aws.String("onetable"),
+					Key:                       map[string]types.AttributeValue{"id": &types.AttributeValueMemberS{Value: "123"}},
+					UpdateExpression:          &updateExpression,
+					ExpressionAttributeValues: expressionAttributeValues,
+				}).Return(nil, errors.New("update failed")).Once()
+			},
+			err:          errors.New("update failed"),
+			expectedCall: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			ctx := context.TODO()
+			m := mocks.NewDynamoDBClient(t)
+
+			c := &Client{
+				db:        m,
+				tableName: aws.String("onetable"),
+			}
+
+			tt.mockSetup()
+
+			err := c.UpdateItem(ctx, tt.key, tt.updates)
+			if tt.err != nil {
+				require.Error(t, err)
+				assert.Contains(t, err.Error(), tt.err.Error())
+			} else {
+				require.NoError(t, err)
+			}
+
+			if tt.expectedCall {
+				m.AssertExpectations(t)
+			}
+		})
+	}
+}

@@ -5,9 +5,9 @@ mockname: "{{.InterfaceName|camelcase}}"
 outpkg: "mocks"
 
 packages:
-  github.com/danielMensah/onetable-go/internal/database:
+  github.com/danielMensah/go-ddb/internal/database:
     interfaces:
       DynamoDBClient:
-  github.com/danielMensah/onetable-go:
+  github.com/danielMensah/go-ddb:
     interfaces:
       Client:

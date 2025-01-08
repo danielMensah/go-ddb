@@ -131,3 +131,23 @@ func (c *Client) UpdateItem(ctx context.Context, key interface{}, updates map[st
 
 	return nil
 }
+
+// DeleteItem deletes an item from the database.
+func (c *Client) DeleteItem(ctx context.Context, key interface{}) error {
+	keyMap, err := attributevalue.MarshalMap(key)
+	if err != nil {
+		return fmt.Errorf("marshalling key: %w", err)
+	}
+
+	input := &dynamodb.DeleteItemInput{
+		TableName: c.tableName,
+		Key:       keyMap,
+	}
+
+	_, err = c.db.DeleteItem(ctx, input)
+	if err != nil {
+		return fmt.Errorf("deleting item: %w", err)
+	}
+
+	return nil
+}

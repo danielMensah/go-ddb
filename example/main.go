@@ -6,7 +6,7 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
-	"github.com/danielMensah/onetable-go"
+	"github.com/danielMensah/go-ddb"
 )
 
 type User struct {
@@ -22,7 +22,7 @@ func main() {
 		panic(err)
 	}
 
-	o := onetable.New(dynamodb.NewFromConfig(cfg), "onetable")
+	o := ddb.New(dynamodb.NewFromConfig(cfg), "onetable")
 
 	// Create item
 	output, _ := o.CreateItem(ctx, User{UserId: "1234", Name: "abigail"})
@@ -41,4 +41,8 @@ func main() {
 	// Update item
 	_ = o.UpdateItem(ctx, User{UserId: "1234"}, map[string]interface{}{"name": "abigail"})
 	fmt.Printf("successfully updated user")
+
+	// Delete item
+	_ = o.DeleteItem(ctx, User{UserId: "1234"})
+	fmt.Printf("successfully deleted user")
 }
