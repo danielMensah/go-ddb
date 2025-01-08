@@ -16,3 +16,6 @@ test:
 	go test -cover -race ./...;
 
 all: sweep test
+
+publish:
+	GOPROXY=proxy.golang.org go list -m github.com/danielMensah/go-ddb@v0.0.2
