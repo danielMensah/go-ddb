@@ -1,11 +1,11 @@
-package onetable
+package main
 
 import (
 	"context"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
-	"github.com/danielMensah/onetable-go/internal/database"
+	"github.com/danielMensah/go-ddb/internal/database"
 )
 
 // Client defines the public API for OneTable.
@@ -18,7 +18,7 @@ type Client interface {
 	// UpdateItem updates an item in the table with configurable options.
 	UpdateItem(ctx context.Context, key interface{}, updates map[string]interface{}) error
 	// DeleteItem removes an item from the table.
-	// DeleteItem(ctx context.Context, key interface{}) (*dynamodb.DeleteItemOutput, error)
+	DeleteItem(ctx context.Context, key interface{}) error
 }
 
 // New creates a new instance of OneTable Client.

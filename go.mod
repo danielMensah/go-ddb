@@ -1,4 +1,4 @@
-module github.com/danielMensah/onetable-go
+module github.com/danielMensah/go-ddb
 
 go 1.23
 
@@ -7,6 +7,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/config v1.28.7
 	github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue v1.15.22
 	github.com/aws/aws-sdk-go-v2/service/dynamodb v1.38.1
+	github.com/danielMensah/onetable-go v0.0.1
 	github.com/stretchr/testify v1.10.0
 )
 
@@ -28,5 +29,8 @@ require (
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/stretchr/objx v0.5.2 // indirect
+	golang.org/x/mod v0.22.0 // indirect
+	golang.org/x/sync v0.10.0 // indirect
+	golang.org/x/tools v0.29.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

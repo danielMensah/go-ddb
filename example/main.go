@@ -41,4 +41,8 @@ func main() {
 	// Update item
 	_ = o.UpdateItem(ctx, User{UserId: "1234"}, map[string]interface{}{"name": "abigail"})
 	fmt.Printf("successfully updated user")
+
+	// Delete item
+	_ = o.DeleteItem(ctx, User{UserId: "1234"})
+	fmt.Printf("successfully deleted user")
 }

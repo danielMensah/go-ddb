@@ -1,13 +1,13 @@
-![coverage](https://raw.githubusercontent.com/danielMensah/onetable-go/badges/.badges/main/coverage.svg)
-# **OneTable: A Go Library to Simplify DynamoDB Operations**
+![coverage](https://raw.githubusercontent.com/danielMensah/go-ddb/badges/.badges/main/coverage.svg)
+# **Go-DDB: A Go Library to Simplify DynamoDB Operations**
 
-**OneTable** is a lightweight library for **DynamoDB** in Go. It simplifies the use of the AWS DynamoDB SDK by abstracting common complexities and avoiding repetitive code, allowing developers to focus on building applications instead of dealing with DynamoDB's low-level details.
+**Go-DDB** is a lightweight library for **DynamoDB** in Go. It simplifies the use of the AWS DynamoDB SDK by abstracting common complexities and avoiding repetitive code, allowing developers to focus on building applications instead of dealing with DynamoDB's low-level details.
 
 ---
 
-## **Why OneTable?**
+## **Why Go-DDB?**
 
-Working with DynamoDB's SDK often involves writing repetitive boilerplate code and managing low-level operations such as query conditions, attribute value mappings, and table configurations. **OneTable** aims to:
+Working with DynamoDB's SDK often involves writing repetitive boilerplate code and managing low-level operations such as query conditions, attribute value mappings, and table configurations. **go-ddb** aims to:
 - Abstract away complexity.
 - Simplify querying and item creation.
 - Provide reusable logic to reduce boilerplate.
@@ -35,16 +35,16 @@ Working with DynamoDB's SDK often involves writing repetitive boilerplate code a
 
 ## **Installation**
 
-Add OneTable to your Go project using:
+Add go-ddb to your Go project using:
 ```bash
-go get github.com/danielMensah/onetable-go
+go get github.com/danielMensah/go-ddb
 ```
 
 ---
 
 ## **Usage**
 
-### **Initialize OneTable Client**
+### **Initialize go-ddb Client**
 
 ```go
 package main
@@ -55,7 +55,7 @@ import (
 
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
-	"github.com/danielMensah/onetable-go"
+	"github.com/danielMensah/go-ddb"
 )
 
 func main() {
@@ -68,8 +68,8 @@ func main() {
 	// Initialize DynamoDB client
 	dynamoDBClient := dynamodb.NewFromConfig(cfg)
 
-	// Create OneTable client
-	client := onetable.New(dynamoDBClient, "YourTableName")
+	// Create go-ddb client
+	client := ddb.New(dynamoDBClient, "YourTableName")
 
 	// Use the client for CRUD operations
 }
@@ -85,7 +85,7 @@ type User struct {
 	Name string `dynamodbav:"name"`
 }
 
-func createUser(ctx context.Context, client onetable.Client) {
+func createUser(ctx context.Context, client ddb.Client) {
 	user := User{
 		ID:   "123",
 		Name: "John Doe",
@@ -106,7 +106,7 @@ func createUser(ctx context.Context, client onetable.Client) {
 
 #### **Retrieve a Single Item**
 ```go
-func getUser(ctx context.Context, client onetable.Client) {
+func getUser(ctx context.Context, client ddb.Client) {
 	var user User
 	err := client.Find(ctx, &user, "id = $1", "123")
 	if err != nil {
@@ -119,7 +119,7 @@ func getUser(ctx context.Context, client onetable.Client) {
 
 #### **Retrieve Multiple Items**
 ```go
-func listUsers(ctx context.Context, client onetable.Client) {
+func listUsers(ctx context.Context, client ddb.Client) {
 	var users []User
 	err := client.Find(ctx, &users, "name = $1", "John Doe")
 	if err != nil {

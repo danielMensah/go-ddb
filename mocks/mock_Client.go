@@ -81,6 +81,53 @@ func (_c *Client_CreateItem_Call) RunAndReturn(run func(context.Context, interfa
 	return _c
 }
 
+// DeleteItem provides a mock function with given fields: ctx, key
+func (_m *Client) DeleteItem(ctx context.Context, key interface{}) error {
+	ret := _m.Called(ctx, key)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DeleteItem")
+	}
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, interface{}) error); ok {
+		r0 = rf(ctx, key)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// Client_DeleteItem_Call is a *mock.Call that shadows Run/Return methods with type explicit version for method 'DeleteItem'
+type Client_DeleteItem_Call struct {
+	*mock.Call
+}
+
+// DeleteItem is a helper method to define mock.On call
+//   - ctx context.Context
+//   - key interface{}
+func (_e *Client_Expecter) DeleteItem(ctx interface{}, key interface{}) *Client_DeleteItem_Call {
+	return &Client_DeleteItem_Call{Call: _e.mock.On("DeleteItem", ctx, key)}
+}
+
+func (_c *Client_DeleteItem_Call) Run(run func(ctx context.Context, key interface{})) *Client_DeleteItem_Call {
+	_c.Call.Run(func(args mock.Arguments) {
+		run(args[0].(context.Context), args[1].(interface{}))
+	})
+	return _c
+}
+
+func (_c *Client_DeleteItem_Call) Return(_a0 error) *Client_DeleteItem_Call {
+	_c.Call.Return(_a0)
+	return _c
+}
+
+func (_c *Client_DeleteItem_Call) RunAndReturn(run func(context.Context, interface{}) error) *Client_DeleteItem_Call {
+	_c.Call.Return(run)
+	return _c
+}
+
 // Find provides a mock function with given fields: ctx, out, query, args
 func (_m *Client) Find(ctx context.Context, out interface{}, query string, args ...interface{}) error {
 	var _ca []interface{}
